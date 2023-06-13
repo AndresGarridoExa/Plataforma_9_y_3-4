@@ -7,10 +7,11 @@ public class MenuGeneral {
         private Scanner sn = new Scanner(System.in),teclado= new Scanner(System.in),sn2 = new Scanner(System.in);
         private boolean passvalida = false,salir = false;
         private int opcion = 0,DNI,index=0,tries = 0;
-        private Cliente sesionActiva = null;
+        private Pasajero sesionActiva = null;
         private String contrasenia;
+        private EmpresaTransporte empresa;
 
-        public MenuGeneral(Empresa empresa) {
+        public MenuGeneral(EmpresaTransporte empresa) {
             this.empresa = empresa;
         }
 
