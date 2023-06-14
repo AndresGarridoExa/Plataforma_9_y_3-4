@@ -16,6 +16,13 @@ public class Servicio {
         this.costo = costo;
         asientos = new ArrayList<>();
     }
+    public Servicio(String origen, String destino, LocalDate fechaViaje,ArrayList<Asiento> asientos ,double costo) {
+        this.origen = origen;
+        this.destino = destino;
+        this.fechaViaje = fechaViaje;
+        this.costo = costo;
+        this.asientos = asientos;
+    }
 
     public void agregarAsiento(Asiento asiento) {
         asientos.add(asiento);
