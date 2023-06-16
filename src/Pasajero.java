@@ -1,10 +1,12 @@
+import java.util.ArrayList;
+
 public class Pasajero {
     private String apellido;
     private String nombre;
     private int dni;
     private String claveAcceso;
     private String tarjetaCredito;
-    private List<Pasaje> pasajes;
+    private ArrayList<Pasaje> pasajes;
 
     public Pasajero(String apellido, String nombre, int dni, String claveAcceso) {
         this.apellido = apellido;
@@ -20,6 +22,9 @@ public class Pasajero {
 
     public void agregarPasaje(Pasaje pasaje) {
         pasajes.add(pasaje);
+    }
+    public void viaja(Pasaje pasaje){
+        pasajes.remove(pasaje);
     }
 }
 
