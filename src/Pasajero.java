@@ -5,7 +5,7 @@ public class Pasajero {
     private String nombre;
     private int dni;
     private String claveAcceso;
-    private String tarjetaCredito;
+    private String tarjeta;
     private ArrayList<Pasaje> pasajes;
 
     public Pasajero(String apellido, String nombre, int dni, String claveAcceso) {
@@ -14,10 +14,14 @@ public class Pasajero {
         this.dni = dni;
         this.claveAcceso = claveAcceso;
         pasajes = new ArrayList<>();
+        this.tarjeta="";
     }
 
-    public void setTarjetaCredito(String tarjetaCredito) {
-        this.tarjetaCredito = tarjetaCredito;
+    public void setTarjeta(String tarjeta) {
+        this.tarjeta = tarjeta;
+    }
+    public String getTarjeta(){
+        return this.tarjeta;
     }
 
     public void agregarPasaje(Pasaje pasaje) {
@@ -26,5 +30,29 @@ public class Pasajero {
     public void viaja(Pasaje pasaje){
         pasajes.remove(pasaje);
     }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getDni() {
+        return dni;
+    }
+
+
+
+
 }
 

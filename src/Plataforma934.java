@@ -1,11 +1,8 @@
-import javax.crypto.spec.PSource;
-import java.text.SimpleDateFormat;
+import org.jetbrains.annotations.NotNull;
+
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Scanner;
-import java.util.InputMismatchException;
 
 public class Plataforma934 {
     private ArrayList<EmpresaTransporte> empresas;
@@ -24,7 +21,7 @@ public class Plataforma934 {
         if (validarClaveAcceso(claveAcceso)) {
             Pasajero pasajero = new Pasajero(apellido, nombre, dni, claveAcceso);
             if (tarjetaCredito != null) {
-                pasajero.setTarjetaCredito(tarjetaCredito);
+                pasajero.setTarjeta(tarjetaCredito);
             }
             pasajeros.add(pasajero);
         } else {
@@ -39,19 +36,45 @@ public class Plataforma934 {
     }
 
     public boolean comprarPasaje(Pasajero pasajero, Servicio serv) {
+        System.out.println("validar?");
         if (validarPago(pasajero)) {
+            System.out.println("validado");
             if (serv.getAsientosDisponibles() > 0) {
-                serv.reservar(pasajero);
-                return true;
+                System.out.println("hay asientos");
+                int reserva = nroReserva(serv);
+                if(serv.getAsientos().get(reserva).isDisponible()){
+                    serv.reservar(pasajero,reserva);
+                    return true;
+                }
             }
-            return false;
         }
         return false;
     }
 
+    public int nroReserva(@NotNull Servicio serv){
+        String result;
+        System.out.println("Las butacas disponibles son: ");
+        ArrayList<Asiento> asientos = serv.getAsientos();
+        for(int i=0; i< asientos.size(); i++){
+            if(asientos.get(i).isDisponible()) {
+                System.out.print("[" + (i+1) + "]");
+            }
+        }
+        Scanner leer = new Scanner(System.in);
+        do{
+            System.out.println("Seleccione una butaca: ");
+            result = leer.nextLine();
+        }while(!isNumeric(result));
+
+        return Integer.parseInt(result)-1;
+    }
+
     public boolean validarPago(Pasajero p1) {
         //valida que el pasajero tenga plata,se haga el pago, etc.
-        return true;
+
+        //En este caso se fija que tenga tarjeta nomas.
+        System.out.println("Tarjeta: "+p1.getTarjeta());
+        return !(p1.getTarjeta().equals(""));
     }
 
     public void mostrarViajes(ArrayList<Servicio> servicios, Pasajero p1) {
@@ -64,9 +87,12 @@ public class Plataforma934 {
             opcion = leer.nextLine();
             if (isNumeric(opcion)) {
                 int op = Integer.parseInt(opcion) -1;
-                if (op > 0 && op <= servicios.size()) {
-                    comprarPasaje(p1, servicios.get(op));
-                    System.out.println("Boleto comprado");
+                if (op >= 0 && op < servicios.size()) {
+                    if(comprarPasaje(p1, servicios.get(op)))
+                        System.out.println("Boleto comprado");
+                    else
+                        System.out.println("Boleto NO comprado");
+
                 }
             }
         }
@@ -212,12 +238,14 @@ public class Plataforma934 {
 
             switch (opcion) {
                 case 1:
+                    tries = 3;
                     System.out.println("INGRESE SU DOCUMENTO");
                     dni = sn2.nextInt();
                     System.out.println("INGRESE SU CONTRASEÑA");
                     String contrasenia = teclado.nextLine();
                     //Deberia verificar
                     System.out.println("Logueado con exito");
+
                     break;
                 case 2:
                     System.out.println("INGRESE SU DOCUMENTO");
@@ -237,6 +265,7 @@ public class Plataforma934 {
                     //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YY/MM/dd");
                     //LocalDate fecha = LocalDate.parse(fechaString, formatter);
                     ArrayList<Servicio> busqueda = sistema.buscarServicios(string1, string2);
+                    logeado.setTarjeta("123456789");
                     sistema.mostrarViajes(busqueda, logeado);
                     break;
                 case 4:
