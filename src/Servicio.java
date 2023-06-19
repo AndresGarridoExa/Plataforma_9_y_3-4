@@ -21,7 +21,7 @@ public class Servicio {
         this.destino = destino;
         this.fechaViaje = fechaViaje;
         this.costo = costo;
-        this.asientos = asientos;
+        this.asientos =(ArrayList<Asiento>) asientos.clone();
     }
 
     public void agregarAsiento(Asiento asiento) {
@@ -64,14 +64,7 @@ public class Servicio {
         return asientos.size();
     }
 
-    public void reservar(Pasajero p1){
-        int i=0;
-        while(i<asientos.size()){
-            if(asientos.get(i).isDisponible()){
-                asientos.get(i).reservar(p1);
-                i=asientos.size();
-            }
-            i++;
-        }
+    public void reservar(Pasajero p1, int reserva){
+        asientos.get(reserva).reservar(p1);
     }
 }
