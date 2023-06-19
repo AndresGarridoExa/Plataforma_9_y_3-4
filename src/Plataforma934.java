@@ -1,8 +1,17 @@
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Plataforma934 {
     private ArrayList<EmpresaTransporte> empresas;
@@ -41,6 +50,9 @@ public class Plataforma934 {
                 int reserva = nroReserva(serv);
                 if(serv.getAsientos().get(reserva).isDisponible()){
                     serv.reservar(pasajero,reserva);
+
+
+                    generarPDF(serv.getOrigen(),serv.getDestino(),Integer.toString(reserva+1),serv.getFechaViaje(),pasajero.getNombre()+" "+pasajero.getApellido(),Integer.toString(pasajero.getDni()));
                     return true;
                 }
             }
@@ -119,6 +131,44 @@ public class Plataforma934 {
         }
 
         return serviciosDisponibles;
+    }
+
+    public void generarPDF(String origen, String destino, String butaca, LocalDate fecha, String NomYApell, String dni){
+
+        try {
+            Document document = new Document();
+            int num = (int)(Math.random()*10000+1);
+            String dest = "pdf/boleto"+ Integer.toString(num) +".pdf";
+            PdfWriter.getInstance(document, new FileOutputStream(dest));
+            document.open();
+
+            document.addTitle("Boleto");
+
+            Paragraph u = new Paragraph("Plataforma 9 y 3/4");
+            u.setAlignment(Element.ALIGN_CENTER);
+            document.add(u);
+
+            document.add(new Paragraph("_____________________________________________________________________________"));
+            document.add(new Paragraph("Boleto"));
+            document.add(new Paragraph("Origen: "+origen));
+            document.add(new Paragraph("Destino: "+destino));
+            document.add(new Paragraph("Fecha: "+fecha));
+            document.add(new Paragraph("Butaca: "+butaca));
+            document.add(new Paragraph("Pasajero:"));
+            document.add(new Paragraph("     "+"Dni: "+dni));
+            document.add(new Paragraph("     "+"Nombre y apellido: "+NomYApell));
+            document.add(new Paragraph("_____________________________________________________________________________"));
+
+
+            document.close();
+
+            System.out.println("PDF creado");
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Plataforma934.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DocumentException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void suscribirViajeImprovisado(Pasajero pasajero, String origen, String destino) {
