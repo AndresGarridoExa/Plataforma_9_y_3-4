@@ -36,11 +36,8 @@ public class Plataforma934 {
     }
 
     public boolean comprarPasaje(Pasajero pasajero, Servicio serv) {
-        System.out.println("validar?");
         if (validarPago(pasajero)) {
-            System.out.println("validado");
             if (serv.getAsientosDisponibles() > 0) {
-                System.out.println("hay asientos");
                 int reserva = nroReserva(serv);
                 if(serv.getAsientos().get(reserva).isDisponible()){
                     serv.reservar(pasajero,reserva);
@@ -73,7 +70,6 @@ public class Plataforma934 {
         //valida que el pasajero tenga plata,se haga el pago, etc.
 
         //En este caso se fija que tenga tarjeta nomas.
-        System.out.println("Tarjeta: "+p1.getTarjeta());
         return !(p1.getTarjeta().equals(""));
     }
 
