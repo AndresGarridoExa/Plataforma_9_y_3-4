@@ -51,8 +51,12 @@ public class Pasajero {
         return dni;
     }
 
+    public ArrayList<Pasaje> getPasajes() {
+        return pasajes;
+    }
 
-
-
+    public void setPasajes(ArrayList<Pasaje> pasajes) {
+        this.pasajes = pasajes;
+    }
 }
 

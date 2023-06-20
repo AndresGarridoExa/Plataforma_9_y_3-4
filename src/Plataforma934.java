@@ -3,7 +3,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-import org.jetbrains.annotations.NotNull;
+//import org.jetbrains.annotations.NotNull;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -50,8 +50,7 @@ public class Plataforma934 {
                 int reserva = nroReserva(serv);
                 if(serv.getAsientos().get(reserva).isDisponible()){
                     serv.reservar(pasajero,reserva);
-
-
+                    pasajero.agregarPasaje(new Pasaje(serv.getOrigen(),serv.getDestino(),serv.getFechaViaje(),serv.getCosto()));
                     generarPDF(serv.getOrigen(),serv.getDestino(),Integer.toString(reserva+1),serv.getFechaViaje(),pasajero.getNombre()+" "+pasajero.getApellido(),Integer.toString(pasajero.getDni()));
                     return true;
                 }
@@ -60,7 +59,7 @@ public class Plataforma934 {
         return false;
     }
 
-    public int nroReserva(@NotNull Servicio serv){
+    public int nroReserva( Servicio serv){
         String result;
         System.out.println("Las butacas disponibles son: ");
         ArrayList<Asiento> asientos = serv.getAsientos();
@@ -129,7 +128,9 @@ public class Plataforma934 {
             ArrayList<Servicio> servicios = empresa.buscarServicios(origen, destino /*, fechaViaje*/);
             serviciosDisponibles.addAll(servicios);
         }
-
+        if (serviciosDisponibles.isEmpty()){
+            System.out.println("No existen viajes disponibles");
+        }
         return serviciosDisponibles;
     }
 
@@ -171,6 +172,26 @@ public class Plataforma934 {
         }
     }
 
+    public void listarPasajes(Pasajero pasajero){
+        ArrayList<Pasaje> aux = pasajero.getPasajes();
+        if (aux.isEmpty()){
+            System.out.println("No se registraron pasajes comprados");
+        }else {
+            System.out.println("Se tienen registrados los siguientes pasajes: ");
+            System.out.println("--------------------------------------------------------------------------------");
+            for (int i=0;i<aux.size();i++){
+                System.out.println("Pasaje numero:"+ i);
+                System.out.println("Origen: " + aux.get(i).getOrigen());
+                System.out.println("Destino: " + aux.get(i).getDestino());
+                System.out.println("Fecha de viaje: " + aux.get(i).getFechaViaje());
+                //System.out.println("Cantidad de asientos: "+ aux.get(i).getCantAsientos());
+                System.out.println("Costo: " + aux.get(i).getCosto());
+                System.out.println("--------------------------------------------------------------------------------");
+            }
+        }
+
+
+    }
     public void suscribirViajeImprovisado(Pasajero pasajero, String origen, String destino) {
         // Suscribir al pasajero para recibir alertas de pasajes con descuento para el viaje improvisado
     }
@@ -278,7 +299,8 @@ public class Plataforma934 {
             System.out.println("1. INICIAR SESION/cliente");
             System.out.println("2. iniciar sesion/admin");
             System.out.println("3. Buscar pasaje");
-            System.out.println("4. Salir");
+            System.out.println("4. Listar pasajes comprados");
+            System.out.println("5. Salir");
 
             opcion = sn.nextInt();
 
@@ -312,9 +334,14 @@ public class Plataforma934 {
                     //LocalDate fecha = LocalDate.parse(fechaString, formatter);
                     ArrayList<Servicio> busqueda = sistema.buscarServicios(string1, string2);
                     logeado.setTarjeta("123456789");
-                    sistema.mostrarViajes(busqueda, logeado);
+                    if (!busqueda.isEmpty()){
+                        sistema.mostrarViajes(busqueda, logeado);
+                    }
                     break;
                 case 4:
+                    sistema.listarPasajes(logeado);
+                    break;
+                case 5:
                     salir = true;
                     System.out.println("Saliendo del menú...");
                     break;

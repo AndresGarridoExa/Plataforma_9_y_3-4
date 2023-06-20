@@ -5,14 +5,15 @@ public class Pasaje {
     private String origen;
     private String destino;
     private LocalDate fechaViaje;
-    private ArrayList<Asiento> asientos;
+    //private ArrayList<Asiento> asientos;
+    //private int cantAsientos;
     private double costo;
 
-    public Pasaje(String origen, String destino, LocalDate fechaViaje, ArrayList<Asiento> asientos, double costo) {
+    public Pasaje(String origen, String destino, LocalDate fechaViaje, double costo) {
         this.origen = origen;
         this.destino = destino;
         this.fechaViaje = fechaViaje;
-        this.asientos = (ArrayList<Asiento>)asientos.clone();
+        //this.cantAsientos = cantAsientos;
         this.costo = costo;
     }
 
@@ -40,13 +41,19 @@ public class Pasaje {
         this.fechaViaje = fechaViaje;
     }
 
-    public ArrayList<Asiento> getAsientos() {
+    /*public ArrayList<Asiento> getAsientos() {
         return asientos;
-    }
+    }*/
 
-    public void setAsientos(ArrayList<Asiento> asientos) {
+    /*public void setAsientos(ArrayList<Asiento> asientos) {
         this.asientos = asientos;
+    }*/
+    /*public  int getCantAsientos(){
+        return this.cantAsientos;
     }
+    public void setCantAsientos(int cant){
+        this.cantAsientos = cant;
+    }*/
 
     public double getCosto() {
         return costo;
