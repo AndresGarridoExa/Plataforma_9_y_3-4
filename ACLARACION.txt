@@ -17,3 +17,4 @@ Contraseña: Contrasenia1234
 "Buenos Aires", "Rosario"
 "Córdoba", "Mendoza".
 Aclaracion extra: Respetar Mayusculas y tildes en nombres de ciudades.
+Las clases se encuentran en Plataforma_9_y_3-4-master.
