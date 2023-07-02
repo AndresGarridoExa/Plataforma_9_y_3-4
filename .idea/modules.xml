@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-<<<<<<< HEAD
-      <module fileurl="file://$PROJECT_DIR$/Tpe2023.iml" filepath="$PROJECT_DIR$/Tpe2023.iml" />
-=======
       <module fileurl="file://$PROJECT_DIR$/plataforma 3-4.iml" filepath="$PROJECT_DIR$/plataforma 3-4.iml" />
 >>>>>>> testeoFinal
     </modules>
