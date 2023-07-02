@@ -8,15 +8,13 @@ public class Pasaje implements Serializable {
     private String origen;
     private String destino;
     private LocalDate fechaViaje;
-    //private ArrayList<plat934.Asiento> asientos;
-    //private int cantAsientos;
+
     private double costo;
 
     public Pasaje(String origen, String destino, LocalDate fechaViaje, double costo) {
         this.origen = origen;
         this.destino = destino;
         this.fechaViaje = fechaViaje;
-        //this.cantAsientos = cantAsientos;
         this.costo = costo;
     }
 
@@ -43,20 +41,6 @@ public class Pasaje implements Serializable {
     public void setFechaViaje(LocalDate fechaViaje) {
         this.fechaViaje = fechaViaje;
     }
-
-    /*public ArrayList<plat934.Asiento> getAsientos() {
-        return asientos;
-    }*/
-
-    /*public void setAsientos(ArrayList<plat934.Asiento> asientos) {
-        this.asientos = asientos;
-    }*/
-    /*public  int getCantAsientos(){
-        return this.cantAsientos;
-    }
-    public void setCantAsientos(int cant){
-        this.cantAsientos = cant;
-    }*/
 
     public double getCosto() {
         return costo;

@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-//import plat934.*;
 
 public class Plataforma934 {
     private ArrayList<EmpresaTransporte> empresas;
@@ -50,7 +49,7 @@ public class Plataforma934 {
             System.out.println("Valido pago.");
             if (serv.getAsientosDisponibles() > 0) {
                 int reserva = nroReserva(serv);
-                while (reserva < 0 || reserva >serv.getCantAsientos()){
+                while (reserva < 0 || reserva >= serv.getCantAsientos()){
                     System.out.println("Valor de butaca fuera de rango.");
                     reserva = nroReserva(serv);
                 }
@@ -85,7 +84,6 @@ public class Plataforma934 {
 
     public boolean validarPago(Pasajero p1) {
         //valida que el pasajero tenga plata,se haga el pago, etc.
-
         //En este caso se fija que tenga tarjeta nomas.
         return (p1.getTarjeta().equals(""));
     }
@@ -96,7 +94,7 @@ public class Plataforma934 {
         System.out.println("Si quiere comprar uno de los servicios ingrese la letras s o S:");
         String opcion = leer.nextLine();
         if (opcion.equalsIgnoreCase("s")) {
-            System.out.println("Ingrese el número del plat934.Servicio que de desea comprar: ");
+            System.out.println("Ingrese el número del Servicio que de desea comprar: ");
             opcion = leer.nextLine();
             if (isNumeric(opcion)) {
                 int op = Integer.parseInt(opcion) -1;
@@ -186,11 +184,10 @@ public class Plataforma934 {
             System.out.println("Se tienen registrados los siguientes pasajes: ");
             System.out.println("--------------------------------------------------------------------------------");
             for (int i=0;i<aux.size();i++){
-                System.out.println("plat934.Pasaje numero:"+ i);
+                System.out.println("Pasaje numero:"+ i);
                 System.out.println("Origen: " + aux.get(i).getOrigen());
                 System.out.println("Destino: " + aux.get(i).getDestino());
                 System.out.println("Fecha de viaje: " + aux.get(i).getFechaViaje());
-                //System.out.println("Cantidad de asientos: "+ aux.get(i).getCantAsientos());
                 System.out.println("Costo: " + aux.get(i).getCosto());
                 System.out.println("--------------------------------------------------------------------------------");
             }
@@ -282,117 +279,10 @@ public class Plataforma934 {
         Pasajero logeado = null;
         sistema.cargarEmpresas("empresas.dat");
         sistema.cargarPasajeros("pasajeros.dat");
-        //Carga de datos primer ejecucion.
-        /*
-        //Scanner scanner = new Scanner(System.in);
-        ArrayList<plat934.Asiento> asientos1 = new ArrayList<>();
-        for (int i = 0; i <= 20; i++) {
-            asientos1.add(new plat934.Asiento(i));
-        }
-        ArrayList<plat934.Asiento> asientos2 = new ArrayList<>();
-        for (int i = 1; i <= 20; i++) {
-            asientos2.add(new plat934.Asiento(i));
-        }
-        ArrayList<plat934.Asiento> asientos3 = new ArrayList<>();
-        for (int i = 1; i <= 20; i++) {
-            asientos3.add(new plat934.Asiento(i));
-        }
-        ArrayList<plat934.Asiento> asientos4 = new ArrayList<>();
-        for (int i = 1; i <= 20; i++) {
-            asientos4.add(new plat934.Asiento(i));
-        }
-        ArrayList<plat934.Asiento> asientos5 = new ArrayList<>();
-        for (int i = 1; i <= 20; i++) {
-            asientos5.add(new plat934.Asiento(i));
-        }
-        ArrayList<plat934.Asiento> asientos6 = new ArrayList<>();
-        for (int i = 1; i <= 20; i++) {
-            asientos6.add(new plat934.Asiento(i));
-        }
-        ArrayList<plat934.Asiento> asientos7 = new ArrayList<>();
-        for (int i = 1; i <= 20; i++) {
-            asientos7.add(new plat934.Asiento(i));
-        }
-        ArrayList<plat934.Asiento> asientos8 = new ArrayList<>();
-        for (int i = 1; i <= 20; i++) {
-            asientos8.add(new plat934.Asiento(i));
-        }
-        ArrayList<plat934.Asiento> asientos9 = new ArrayList<>();
-        for (int i = 1; i <= 20; i++) {
-            asientos9.add(new plat934.Asiento(i));
-        }
-        ArrayList<plat934.Asiento> asientos10 = new ArrayList<>();
-        for (int i = 1; i <= 20; i++) {
-            asientos10.add(new plat934.Asiento(i));
-        }
-        plat934.Pasajero matiasD = new plat934.Pasajero("Danderfer","Matias",38270271,"Contrasenia1234");
-        matiasD.setTarjeta("");
-        sistema.agregarPasajero(matiasD);
-        //testlogin.registrarUsuario("Danderfer","Matias","38270271","Contrasenia1234");
-        String[] apellidos = {"González", "Rodríguez", "López", "Martínez", "Pérez", "Gómez", "Sánchez", "Fernández", "Torres", "Ramírez", "Hernández", "Flores", "Vargas", "Morales", "Ortega"};
-        String[] nombres = {"Juan", "María", "Pedro", "Ana", "Luis", "Carla", "Diego", "Laura", "Andrés", "Paula", "Carlos", "Marta", "Fernando", "Lucía", "Sofía"};
-
-        int dniBase = 3000000;
-
-        for (int i = 0; i < 15; i++) {
-            String apellido = apellidos[i % apellidos.length];
-            String nombre = nombres[i % nombres.length];
-            int dni = dniBase + i;
-            String claveAcceso = "Contrasenia1234";
-
-            plat934.Pasajero pasajero = new plat934.Pasajero(apellido, nombre, dni, claveAcceso);
-            pasajero.setTarjeta("");
-            testlogin.registrarUsuario(apellido,nombre,String.valueOf(dni),claveAcceso);
-            sistema.agregarPasajero(pasajero);
-
-        }
-        plat934.EmpresaTransporte viatac = new plat934.EmpresaTransporte("ViaTac");
-        plat934.EmpresaTransporte rapido = new plat934.EmpresaTransporte("El Rapido");
-        plat934.EmpresaTransporte condor = new plat934.EmpresaTransporte("El Condor");
-        plat934.Servicio servicio1 = new plat934.Servicio("Buenos Aires", "Córdoba", LocalDate.of(2023, 6, 20), asientos1, 15000.0);
-        plat934.Servicio servicio2 = new plat934.Servicio("Mendoza", "Bariloche", LocalDate.of(2023, 7, 5), asientos2, 2000.0);
-        plat934.Servicio servicio3 = new plat934.Servicio("Rosario", "Salta", LocalDate.of(2023, 8, 15), asientos3, 5000.0);
-        plat934.Servicio servicio4 = new plat934.Servicio("Mar del Plata", "Neuquén", LocalDate.of(2023, 9, 1), asientos4, 8000.0);
-        plat934.Servicio servicio5 = new plat934.Servicio("Córdoba", "Buenos Aires", LocalDate.of(2023, 6, 25), asientos5, 12000.0);
-        plat934.Servicio servicio6 = new plat934.Servicio("Bariloche", "Mendoza", LocalDate.of(2023, 7, 10), asientos6, 3000.0);
-        plat934.Servicio servicio7 = new plat934.Servicio("Salta", "Rosario", LocalDate.of(2023, 8, 20), asientos7, 5500.0);
-        plat934.Servicio servicio8 = new plat934.Servicio("Neuquén", "Mar del Plata", LocalDate.of(2023, 9, 5), asientos8, 7500.0);
-        plat934.Servicio servicio9 = new plat934.Servicio("Buenos Aires", "Rosario", LocalDate.of(2023, 6, 30), asientos9, 10000.0);
-        plat934.Servicio servicio10 = new plat934.Servicio("Córdoba", "Mendoza", LocalDate.of(2023, 7, 15), asientos10, 1800.0);
-        viatac.agregarServicio(servicio1);
-        viatac.agregarServicio(servicio2);
-        viatac.agregarServicio(servicio5);
-        rapido.agregarServicio(servicio3);
-        rapido.agregarServicio(servicio4);
-        rapido.agregarServicio(servicio1);
-        rapido.agregarServicio(servicio6);
-        rapido.agregarServicio(servicio2);
-        rapido.agregarServicio(servicio7);
-        condor.agregarServicio(servicio8);
-        condor.agregarServicio(servicio1);
-        condor.agregarServicio(servicio3);
-        condor.agregarServicio(servicio2);
-        condor.agregarServicio(servicio9);
-        condor.agregarServicio(servicio10);
-        //sistema.registrarPasajero("af", "Matias", 1, "aaaaaaaaaaaaa", "visa");
-        //sistema.registrarPasajero("as", "Martin", 2, "sddddddsadsda", "Visa");
-        //sistema.registrarPasajero("asdas", "opo", 3, "asdoiahfaohas", "Visa");
-        //sistema.registrarPasajero("fas v", "Pipa", 4, "asda sasfasfa", "Visa");
-        //sistema.registrarPasajero("asdas", "Paco", 5, "liloloalals", "Visa");
-        sistema.agregarEmpresa(viatac);
-        sistema.agregarEmpresa(rapido);
-        sistema.agregarEmpresa(condor);
-
-        //new plat934.Pasajero("lola", "lolo", 10, "contrasenia")
-        //ArrayList<plat934.Servicio> busqueda = sistema.buscarServicios("Buenos Aires", "Córdoba", LocalDate.of(2023, 6, 20));
-        //sistema.mostrarViajesPantalla(busqueda);
-        //sistema.mostrarViajes(busqueda,logeado);
-        */
         boolean salir = false;
         Scanner sn = new Scanner(System.in), teclado = new Scanner(System.in), sn2 = new Scanner(System.in);
-        int opcion = 0, tries = 3, dni;
+        int opcion = 0, tries = 3;
         String nombreusuario;
-        //boolean ingreso = false;
         boolean ingresoempresa = false;
 
         while (!salir) {
@@ -525,10 +415,6 @@ public class Plataforma934 {
                     String string1 = reader.readLine();
                     System.out.print("Ingrese destino del viaje: ");
                     String string2 = reader.readLine();
-                    //System.out.print("Ingrese la fecha (dd/mm/yy): ");
-                    //String fechaString = teclado.nextLine();
-                    //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YY/MM/dd");
-                    //LocalDate fecha = LocalDate.parse(fechaString, formatter);
                     ArrayList<Servicio> busqueda = sistema.buscarServicios(string1, string2);
                     if (!busqueda.isEmpty()){
                             sistema.mostrarViajesPantalla(busqueda);

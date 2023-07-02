@@ -16,12 +16,13 @@ public class EmpresaTransporte implements Serializable {
         servicios.add(servicio);
     }
 
-    public ArrayList<Servicio> buscarServicios(String origen, String destino /*, LocalDate fechaViaje*/) {
-        // Buscar servicios disponibles que cumplan con los criterios de origen, destino y fechaViaje
+    public ArrayList<Servicio> buscarServicios(String origen, String destino ) {
+        // Buscar servicios disponibles que cumplan con los criterios de origen, destino
+        //Tuvimos problemas con las fechas ingresadas por teclado y las guardadas.
         ArrayList<Servicio> salida = new ArrayList<>();
         for(int i=0 ; i< servicios.size(); i++){
             Servicio s = servicios.get(i);
-            if(s.getOrigen().equals(origen) && s.getDestino().equals(destino) /*&& s.getFechaViaje().equals(fechaViaje)*/){
+            if(s.getOrigen().equals(origen) && s.getDestino().equals(destino) ){
                 salida.add(s);
             }
         }
