@@ -1,11 +1,15 @@
+package clasesDeSobra;
 import java.util.ArrayList;
+
+import plat934.*;
+
 
 public class Transporte {
     private ArrayList<Asiento> asientos;
     private Servicio servicio;
     private int capacidad;
 
-    public Transporte(ArrayList<Asiento> asientos, Servicio servicio,int capacidad) {
+    public Transporte(ArrayList<Asiento> asientos, Servicio servicio, int capacidad) {
         this.asientos = asientos;
         this.servicio = servicio;
         this.capacidad = capacidad;

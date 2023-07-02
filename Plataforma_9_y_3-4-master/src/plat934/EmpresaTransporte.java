@@ -1,5 +1,6 @@
+package plat934;
+
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class EmpresaTransporte implements Serializable {

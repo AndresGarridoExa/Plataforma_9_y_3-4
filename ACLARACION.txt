@@ -1,0 +1,19 @@
+El main ejecutable se encuentra en la clase Plataforma934 dentro del package plat934.
+Algunos de los usuarios ya creados son:
+Todos comparten las mismas contraseñas para no confundirse durante el testeo.
+DNI: 38270271 
+DNi: 39270271
+y DNI del 3000000 al 3000014.
+Contraseña: Contrasenia1234
+ Y Los viajes cargados son :(Origen ,Destino)
+"Buenos Aires", "Córdoba"
+"Mendoza", "Bariloche"
+"Rosario", "Salta"
+"Mar del Plata", "Neuquén"
+"Córdoba", "Buenos Aires"
+"Bariloche", "Mendoza"
+"Salta", "Rosario"
+"Neuquén", "Mar del Plata"
+"Buenos Aires", "Rosario"
+"Córdoba", "Mendoza".
+Aclaracion extra: Respetar Mayusculas y tildes en nombres de ciudades.

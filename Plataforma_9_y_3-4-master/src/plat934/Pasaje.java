@@ -1,3 +1,5 @@
+package plat934;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -6,7 +8,7 @@ public class Pasaje implements Serializable {
     private String origen;
     private String destino;
     private LocalDate fechaViaje;
-    //private ArrayList<Asiento> asientos;
+    //private ArrayList<plat934.Asiento> asientos;
     //private int cantAsientos;
     private double costo;
 
@@ -42,11 +44,11 @@ public class Pasaje implements Serializable {
         this.fechaViaje = fechaViaje;
     }
 
-    /*public ArrayList<Asiento> getAsientos() {
+    /*public ArrayList<plat934.Asiento> getAsientos() {
         return asientos;
     }*/
 
-    /*public void setAsientos(ArrayList<Asiento> asientos) {
+    /*public void setAsientos(ArrayList<plat934.Asiento> asientos) {
         this.asientos = asientos;
     }*/
     /*public  int getCantAsientos(){

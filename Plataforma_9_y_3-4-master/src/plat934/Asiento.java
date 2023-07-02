@@ -1,3 +1,5 @@
+package plat934;
+
 import java.io.Serializable;
 
 public class Asiento implements Serializable {

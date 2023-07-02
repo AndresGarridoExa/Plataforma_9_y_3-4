@@ -1,3 +1,5 @@
+package plat934;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -8,7 +10,6 @@ public class Servicio  implements Serializable {
     private LocalDate fechaViaje;
     private ArrayList<Asiento> asientos;
     private double costo;
-   // private Transporte micro;
 
     public Servicio(String origen, String destino, LocalDate fechaViaje, double costo) {
         this.origen = origen;

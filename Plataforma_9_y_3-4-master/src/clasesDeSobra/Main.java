@@ -1,7 +1,10 @@
+package clasesDeSobra;
+
 import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import plat934.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -78,7 +81,7 @@ public class Main {
         System.out.println("Ingrese su contraseña: ");
         String contraseña = scanner.nextLine();
 
-        loginUsuario.registrarUsuario(apellido, nombre, dni, contraseña);
+        plat934.loginUsuario.registrarUsuario(apellido, nombre, dni, contraseña);
 
         //scanner.close();
 
@@ -91,7 +94,7 @@ public class Main {
             System.out.print("Ingrese su contraseña: ");
             String contraseñaInput = reader.readLine();
 
-            loginUsuario.ingresar(dniInput,contraseñaInput);
+            plat934.loginUsuario.ingresar(dniInput,contraseñaInput);
         } finally {
             //
         }

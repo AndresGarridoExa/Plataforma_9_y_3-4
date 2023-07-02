@@ -1,3 +1,5 @@
+package plat934;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+//import plat934.*;
 
 public class Plataforma934 {
     private ArrayList<EmpresaTransporte> empresas;
@@ -47,6 +50,10 @@ public class Plataforma934 {
             System.out.println("Valido pago.");
             if (serv.getAsientosDisponibles() > 0) {
                 int reserva = nroReserva(serv);
+                while (reserva < 0 || reserva >serv.getCantAsientos()){
+                    System.out.println("Valor de butaca fuera de rango.");
+                    reserva = nroReserva(serv);
+                }
                 if(serv.getAsientos().get(reserva).isDisponible()){
                     serv.reservar(pasajero,reserva);
                     pasajero.agregarPasaje(new Pasaje(serv.getOrigen(),serv.getDestino(),serv.getFechaViaje(),serv.getCosto()));
@@ -89,7 +96,7 @@ public class Plataforma934 {
         System.out.println("Si quiere comprar uno de los servicios ingrese la letras s o S:");
         String opcion = leer.nextLine();
         if (opcion.equalsIgnoreCase("s")) {
-            System.out.println("Ingrese el número del Servicio que de desea comprar: ");
+            System.out.println("Ingrese el número del plat934.Servicio que de desea comprar: ");
             opcion = leer.nextLine();
             if (isNumeric(opcion)) {
                 int op = Integer.parseInt(opcion) -1;
@@ -107,7 +114,7 @@ public class Plataforma934 {
     public void mostrarViajesPantalla(ArrayList<Servicio> servicios) {
         for (int i = 0; i < servicios.size(); i++) {
             Servicio aux = servicios.get(i);
-            System.out.println("Servicio: " + (i + 1));
+            System.out.println("plat934.Servicio: " + (i + 1));
             System.out.println("Origen: " + aux.getOrigen() + " | " +
                     "Destino " + aux.getDestino() + " | " +
                     "Cantidad de Asientos: " + aux.getCantAsientos() + " | " +
@@ -154,7 +161,7 @@ public class Plataforma934 {
             document.add(new Paragraph("Destino: "+destino));
             document.add(new Paragraph("Fecha: "+fecha));
             document.add(new Paragraph("Butaca: "+butaca));
-            document.add(new Paragraph("Pasajero:"));
+            document.add(new Paragraph("plat934.Pasajero:"));
             document.add(new Paragraph("     "+"Dni: "+dni));
             document.add(new Paragraph("     "+"Nombre y apellido: "+NomYApell));
             document.add(new Paragraph("_____________________________________________________________________________"));
@@ -179,7 +186,7 @@ public class Plataforma934 {
             System.out.println("Se tienen registrados los siguientes pasajes: ");
             System.out.println("--------------------------------------------------------------------------------");
             for (int i=0;i<aux.size();i++){
-                System.out.println("Pasaje numero:"+ i);
+                System.out.println("plat934.Pasaje numero:"+ i);
                 System.out.println("Origen: " + aux.get(i).getOrigen());
                 System.out.println("Destino: " + aux.get(i).getDestino());
                 System.out.println("Fecha de viaje: " + aux.get(i).getFechaViaje());
@@ -275,49 +282,50 @@ public class Plataforma934 {
         Pasajero logeado = null;
         sistema.cargarEmpresas("empresas.dat");
         sistema.cargarPasajeros("pasajeros.dat");
+        //Carga de datos primer ejecucion.
         /*
         //Scanner scanner = new Scanner(System.in);
-        ArrayList<Asiento> asientos1 = new ArrayList<>();
+        ArrayList<plat934.Asiento> asientos1 = new ArrayList<>();
         for (int i = 0; i <= 20; i++) {
-            asientos1.add(new Asiento(i));
+            asientos1.add(new plat934.Asiento(i));
         }
-        ArrayList<Asiento> asientos2 = new ArrayList<>();
+        ArrayList<plat934.Asiento> asientos2 = new ArrayList<>();
         for (int i = 1; i <= 20; i++) {
-            asientos2.add(new Asiento(i));
+            asientos2.add(new plat934.Asiento(i));
         }
-        ArrayList<Asiento> asientos3 = new ArrayList<>();
+        ArrayList<plat934.Asiento> asientos3 = new ArrayList<>();
         for (int i = 1; i <= 20; i++) {
-            asientos3.add(new Asiento(i));
+            asientos3.add(new plat934.Asiento(i));
         }
-        ArrayList<Asiento> asientos4 = new ArrayList<>();
+        ArrayList<plat934.Asiento> asientos4 = new ArrayList<>();
         for (int i = 1; i <= 20; i++) {
-            asientos4.add(new Asiento(i));
+            asientos4.add(new plat934.Asiento(i));
         }
-        ArrayList<Asiento> asientos5 = new ArrayList<>();
+        ArrayList<plat934.Asiento> asientos5 = new ArrayList<>();
         for (int i = 1; i <= 20; i++) {
-            asientos5.add(new Asiento(i));
+            asientos5.add(new plat934.Asiento(i));
         }
-        ArrayList<Asiento> asientos6 = new ArrayList<>();
+        ArrayList<plat934.Asiento> asientos6 = new ArrayList<>();
         for (int i = 1; i <= 20; i++) {
-            asientos6.add(new Asiento(i));
+            asientos6.add(new plat934.Asiento(i));
         }
-        ArrayList<Asiento> asientos7 = new ArrayList<>();
+        ArrayList<plat934.Asiento> asientos7 = new ArrayList<>();
         for (int i = 1; i <= 20; i++) {
-            asientos7.add(new Asiento(i));
+            asientos7.add(new plat934.Asiento(i));
         }
-        ArrayList<Asiento> asientos8 = new ArrayList<>();
+        ArrayList<plat934.Asiento> asientos8 = new ArrayList<>();
         for (int i = 1; i <= 20; i++) {
-            asientos8.add(new Asiento(i));
+            asientos8.add(new plat934.Asiento(i));
         }
-        ArrayList<Asiento> asientos9 = new ArrayList<>();
+        ArrayList<plat934.Asiento> asientos9 = new ArrayList<>();
         for (int i = 1; i <= 20; i++) {
-            asientos9.add(new Asiento(i));
+            asientos9.add(new plat934.Asiento(i));
         }
-        ArrayList<Asiento> asientos10 = new ArrayList<>();
+        ArrayList<plat934.Asiento> asientos10 = new ArrayList<>();
         for (int i = 1; i <= 20; i++) {
-            asientos10.add(new Asiento(i));
+            asientos10.add(new plat934.Asiento(i));
         }
-        Pasajero matiasD = new Pasajero("Danderfer","Matias",38270271,"Contrasenia1234");
+        plat934.Pasajero matiasD = new plat934.Pasajero("Danderfer","Matias",38270271,"Contrasenia1234");
         matiasD.setTarjeta("");
         sistema.agregarPasajero(matiasD);
         //testlogin.registrarUsuario("Danderfer","Matias","38270271","Contrasenia1234");
@@ -332,25 +340,25 @@ public class Plataforma934 {
             int dni = dniBase + i;
             String claveAcceso = "Contrasenia1234";
 
-            Pasajero pasajero = new Pasajero(apellido, nombre, dni, claveAcceso);
+            plat934.Pasajero pasajero = new plat934.Pasajero(apellido, nombre, dni, claveAcceso);
             pasajero.setTarjeta("");
             testlogin.registrarUsuario(apellido,nombre,String.valueOf(dni),claveAcceso);
             sistema.agregarPasajero(pasajero);
 
         }
-        EmpresaTransporte viatac = new EmpresaTransporte("ViaTac");
-        EmpresaTransporte rapido = new EmpresaTransporte("El Rapido");
-        EmpresaTransporte condor = new EmpresaTransporte("El Condor");
-        Servicio servicio1 = new Servicio("Buenos Aires", "Córdoba", LocalDate.of(2023, 6, 20), asientos1, 15000.0);
-        Servicio servicio2 = new Servicio("Mendoza", "Bariloche", LocalDate.of(2023, 7, 5), asientos2, 2000.0);
-        Servicio servicio3 = new Servicio("Rosario", "Salta", LocalDate.of(2023, 8, 15), asientos3, 5000.0);
-        Servicio servicio4 = new Servicio("Mar del Plata", "Neuquén", LocalDate.of(2023, 9, 1), asientos4, 8000.0);
-        Servicio servicio5 = new Servicio("Córdoba", "Buenos Aires", LocalDate.of(2023, 6, 25), asientos5, 12000.0);
-        Servicio servicio6 = new Servicio("Bariloche", "Mendoza", LocalDate.of(2023, 7, 10), asientos6, 3000.0);
-        Servicio servicio7 = new Servicio("Salta", "Rosario", LocalDate.of(2023, 8, 20), asientos7, 5500.0);
-        Servicio servicio8 = new Servicio("Neuquén", "Mar del Plata", LocalDate.of(2023, 9, 5), asientos8, 7500.0);
-        Servicio servicio9 = new Servicio("Buenos Aires", "Rosario", LocalDate.of(2023, 6, 30), asientos9, 10000.0);
-        Servicio servicio10 = new Servicio("Córdoba", "Mendoza", LocalDate.of(2023, 7, 15), asientos10, 1800.0);
+        plat934.EmpresaTransporte viatac = new plat934.EmpresaTransporte("ViaTac");
+        plat934.EmpresaTransporte rapido = new plat934.EmpresaTransporte("El Rapido");
+        plat934.EmpresaTransporte condor = new plat934.EmpresaTransporte("El Condor");
+        plat934.Servicio servicio1 = new plat934.Servicio("Buenos Aires", "Córdoba", LocalDate.of(2023, 6, 20), asientos1, 15000.0);
+        plat934.Servicio servicio2 = new plat934.Servicio("Mendoza", "Bariloche", LocalDate.of(2023, 7, 5), asientos2, 2000.0);
+        plat934.Servicio servicio3 = new plat934.Servicio("Rosario", "Salta", LocalDate.of(2023, 8, 15), asientos3, 5000.0);
+        plat934.Servicio servicio4 = new plat934.Servicio("Mar del Plata", "Neuquén", LocalDate.of(2023, 9, 1), asientos4, 8000.0);
+        plat934.Servicio servicio5 = new plat934.Servicio("Córdoba", "Buenos Aires", LocalDate.of(2023, 6, 25), asientos5, 12000.0);
+        plat934.Servicio servicio6 = new plat934.Servicio("Bariloche", "Mendoza", LocalDate.of(2023, 7, 10), asientos6, 3000.0);
+        plat934.Servicio servicio7 = new plat934.Servicio("Salta", "Rosario", LocalDate.of(2023, 8, 20), asientos7, 5500.0);
+        plat934.Servicio servicio8 = new plat934.Servicio("Neuquén", "Mar del Plata", LocalDate.of(2023, 9, 5), asientos8, 7500.0);
+        plat934.Servicio servicio9 = new plat934.Servicio("Buenos Aires", "Rosario", LocalDate.of(2023, 6, 30), asientos9, 10000.0);
+        plat934.Servicio servicio10 = new plat934.Servicio("Córdoba", "Mendoza", LocalDate.of(2023, 7, 15), asientos10, 1800.0);
         viatac.agregarServicio(servicio1);
         viatac.agregarServicio(servicio2);
         viatac.agregarServicio(servicio5);
@@ -375,8 +383,8 @@ public class Plataforma934 {
         sistema.agregarEmpresa(rapido);
         sistema.agregarEmpresa(condor);
 
-        //new Pasajero("lola", "lolo", 10, "contrasenia")
-        //ArrayList<Servicio> busqueda = sistema.buscarServicios("Buenos Aires", "Córdoba", LocalDate.of(2023, 6, 20));
+        //new plat934.Pasajero("lola", "lolo", 10, "contrasenia")
+        //ArrayList<plat934.Servicio> busqueda = sistema.buscarServicios("Buenos Aires", "Córdoba", LocalDate.of(2023, 6, 20));
         //sistema.mostrarViajesPantalla(busqueda);
         //sistema.mostrarViajes(busqueda,logeado);
         */
@@ -384,26 +392,36 @@ public class Plataforma934 {
         Scanner sn = new Scanner(System.in), teclado = new Scanner(System.in), sn2 = new Scanner(System.in);
         int opcion = 0, tries = 3, dni;
         String nombreusuario;
-        boolean ingreso = false;
+        //boolean ingreso = false;
         boolean ingresoempresa = false;
 
         while (!salir) {
 
-            System.out.println("---Bienvenido al sistema de La empresa Plataforma 9-3/4---");
+            System.out.println("----Bienvenido al sistema de La empresa Plataforma 9-3/4----");
             System.out.println("elija su rol");
             System.out.println("1. Iniciar Sesion/cliente.");
             System.out.println("2. iniciar sesion/admin.");
             System.out.println("3. Registrar nueva cuenta.");
             System.out.println("4. Buscar pasaje.");
-            //System.out.println("5. Listar pasajes comprados.");
             System.out.println("5. Salir.");
 
+            while (!sn.hasNextInt()) {
+                System.out.println("Opción inválida. Por favor, ingrese un número.");
+                sn.next(); // Descartar el valor no válido del escáner
+                System.out.println("-------Bienvenido al sistema de La empresa Plataforma 9-3/4--------") ;
+                System.out.println("elija su rol");
+                System.out.println("1. Iniciar Sesion/cliente.");
+                System.out.println("2. iniciar sesion/admin.");
+                System.out.println("3. Registrar nueva cuenta.");
+                System.out.println("4. Buscar pasaje.");
+                System.out.println("5. Salir.");
+            }
             opcion = sn.nextInt();
 
             switch (opcion) {
                 case 1:
                     int intento =0;
-                    //boolean ingreso = false;
+                    boolean ingreso = false;
                     while (intento < tries && !ingreso) {
                         System.out.println("INGRESE SU DOCUMENTO");
                         nombreusuario = reader.readLine();
@@ -420,6 +438,15 @@ public class Plataforma934 {
                                System.out.println("1.Buscar pasaje.");
                                System.out.println("2.Listar los pasajes comprados.");
                                System.out.println("3.Salir.");
+                               while (!teclado.hasNextInt()){
+                                   System.out.println("Opción inválida. Por favor, ingrese un número.");
+                                   teclado.next();
+                                   System.out.println("Bienvenido: "+ logeado.getApellido() + ", " + logeado.getNombre() + ".");
+                                   System.out.println("Eliga una de las siguientes operaciones: ");
+                                   System.out.println("1.Buscar pasaje.");
+                                   System.out.println("2.Listar los pasajes comprados.");
+                                   System.out.println("3.Salir.");
+                               }
                                opcion = teclado.nextInt();
                                switch (opcion){
                                    case 1:
@@ -453,6 +480,7 @@ public class Plataforma934 {
                     }
                     if( intento >= 3){
                         System.out.println("Demasiados intentos de ingresos incorrectos.");
+
                     }
                     break;
                 case 2:
@@ -503,17 +531,11 @@ public class Plataforma934 {
                     //LocalDate fecha = LocalDate.parse(fechaString, formatter);
                     ArrayList<Servicio> busqueda = sistema.buscarServicios(string1, string2);
                     if (!busqueda.isEmpty()){
-                        /*if(ingreso){
-                            sistema.mostrarViajes(busqueda, logeado);
-                        }else {*/
                             sistema.mostrarViajesPantalla(busqueda);
                             System.out.println("Si desea comprar boleto, por favor debe loguearse.");
                         //}
                     }
                     break;
-                //case 5:
-                    //sistema.listarPasajes(logeado);
-                  //  break;
                 case 5:
                     salir = true;
                     System.out.println("Saliendo del menú...");
