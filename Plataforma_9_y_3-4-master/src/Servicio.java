@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Servicio {
+public class Servicio  implements Serializable {
     private String origen;
     private String destino;
     private LocalDate fechaViaje;

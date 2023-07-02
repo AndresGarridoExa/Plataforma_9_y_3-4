@@ -3,9 +3,8 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-//import org.jetbrains.annotations.NotNull;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+
+import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -45,6 +44,7 @@ public class Plataforma934 {
 
     public boolean comprarPasaje(Pasajero pasajero, Servicio serv) {
         if (validarPago(pasajero)) {
+            System.out.println("Valido pago.");
             if (serv.getAsientosDisponibles() > 0) {
                 int reserva = nroReserva(serv);
                 if(serv.getAsientos().get(reserva).isDisponible()){
@@ -80,7 +80,7 @@ public class Plataforma934 {
         //valida que el pasajero tenga plata,se haga el pago, etc.
 
         //En este caso se fija que tenga tarjeta nomas.
-        return !(p1.getTarjeta().equals(""));
+        return (p1.getTarjeta().equals(""));
     }
 
     public void mostrarViajes(ArrayList<Servicio> servicios, Pasajero p1) {
@@ -204,8 +204,79 @@ public class Plataforma934 {
         // Realizar la devolución a la tarjeta de crédito del pasajero
         // Informar a la empresa de transporte sobre la devolución del pasaje
     }
+    public Pasajero buscarPasajero(String dni){
+        for (Pasajero cliente : pasajeros){
+            if(cliente.getDni() == Integer.parseInt(dni)){
+                return cliente;
+            }
+        }
+        System.out.println("No se encontro");
+        return null;
+    }
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //Cargar y guardar datos de empresas y pasajeros
+    public void guardarEmpresas(String archivo) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(archivo))) {
+            oos.writeObject(empresas);
+            System.out.println("Empresas guardadas exitosamente en el archivo: " + archivo);
+        } catch (IOException e) {
+            System.out.println("Error al guardar las empresas en el archivo: " + archivo);
+            e.printStackTrace();
+        }
+    }
 
-    public static void main(String[] args) {
+    public void guardarPasajeros(String archivo) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(archivo))) {
+            oos.writeObject(pasajeros);
+            System.out.println("Pasajeros guardados exitosamente en el archivo: " + archivo);
+        } catch (IOException e) {
+            System.out.println("Error al guardar los pasajeros en el archivo: " + archivo);
+            e.printStackTrace();
+        }
+    }
+
+    public void cargarEmpresas(String archivo) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(archivo))) {
+            empresas = (ArrayList<EmpresaTransporte>) ois.readObject();
+            System.out.println("Empresas cargadas exitosamente desde el archivo: " + archivo);
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error al cargar las empresas desde el archivo: " + archivo);
+            e.printStackTrace();
+        }
+    }
+
+    public void cargarPasajeros(String archivo) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(archivo))) {
+            pasajeros = (ArrayList<Pasajero>) ois.readObject();
+            System.out.println("Pasajeros cargados exitosamente desde el archivo: " + archivo);
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error al cargar los pasajeros desde el archivo: " + archivo);
+            e.printStackTrace();
+        }
+    }
+    public void agregarPasajero(Pasajero nuevo){
+        if(nuevo!= null){
+            pasajeros.add(nuevo);
+        }
+    }
+
+
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    public static void main(String[] args)throws IOException {
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String usuariocsvFile = "usuarios.csv";
+        String empresacsvFile = "empresas.csv";
+        loginUsuario empresalogin = new loginUsuario(empresacsvFile);
+        loginUsuario testlogin = new loginUsuario(usuariocsvFile);
+        Plataforma934 sistema = new Plataforma934();
+        Pasajero logeado = null;
+        sistema.cargarEmpresas("empresas.dat");
+        sistema.cargarPasajeros("pasajeros.dat");
+        /*
+        //Scanner scanner = new Scanner(System.in);
         ArrayList<Asiento> asientos1 = new ArrayList<>();
         for (int i = 0; i <= 20; i++) {
             asientos1.add(new Asiento(i));
@@ -246,6 +317,27 @@ public class Plataforma934 {
         for (int i = 1; i <= 20; i++) {
             asientos10.add(new Asiento(i));
         }
+        Pasajero matiasD = new Pasajero("Danderfer","Matias",38270271,"Contrasenia1234");
+        matiasD.setTarjeta("");
+        sistema.agregarPasajero(matiasD);
+        //testlogin.registrarUsuario("Danderfer","Matias","38270271","Contrasenia1234");
+        String[] apellidos = {"González", "Rodríguez", "López", "Martínez", "Pérez", "Gómez", "Sánchez", "Fernández", "Torres", "Ramírez", "Hernández", "Flores", "Vargas", "Morales", "Ortega"};
+        String[] nombres = {"Juan", "María", "Pedro", "Ana", "Luis", "Carla", "Diego", "Laura", "Andrés", "Paula", "Carlos", "Marta", "Fernando", "Lucía", "Sofía"};
+
+        int dniBase = 3000000;
+
+        for (int i = 0; i < 15; i++) {
+            String apellido = apellidos[i % apellidos.length];
+            String nombre = nombres[i % nombres.length];
+            int dni = dniBase + i;
+            String claveAcceso = "Contrasenia1234";
+
+            Pasajero pasajero = new Pasajero(apellido, nombre, dni, claveAcceso);
+            pasajero.setTarjeta("");
+            testlogin.registrarUsuario(apellido,nombre,String.valueOf(dni),claveAcceso);
+            sistema.agregarPasajero(pasajero);
+
+        }
         EmpresaTransporte viatac = new EmpresaTransporte("ViaTac");
         EmpresaTransporte rapido = new EmpresaTransporte("El Rapido");
         EmpresaTransporte condor = new EmpresaTransporte("El Condor");
@@ -274,75 +366,159 @@ public class Plataforma934 {
         condor.agregarServicio(servicio2);
         condor.agregarServicio(servicio9);
         condor.agregarServicio(servicio10);
-        Plataforma934 sistema = new Plataforma934();
-        sistema.registrarPasajero("af", "Matias", 1, "aaaaaaaaaaaaa", "visa");
-        sistema.registrarPasajero("as", "Martin", 2, "sddddddsadsda", "Visa");
-        sistema.registrarPasajero("asdas", "opo", 3, "asdoiahfaohas", "Visa");
-        sistema.registrarPasajero("fas v", "Pipa", 4, "asda sasfasfa", "Visa");
-        sistema.registrarPasajero("asdas", "Paco", 5, "liloloalals", "Visa");
+        //sistema.registrarPasajero("af", "Matias", 1, "aaaaaaaaaaaaa", "visa");
+        //sistema.registrarPasajero("as", "Martin", 2, "sddddddsadsda", "Visa");
+        //sistema.registrarPasajero("asdas", "opo", 3, "asdoiahfaohas", "Visa");
+        //sistema.registrarPasajero("fas v", "Pipa", 4, "asda sasfasfa", "Visa");
+        //sistema.registrarPasajero("asdas", "Paco", 5, "liloloalals", "Visa");
         sistema.agregarEmpresa(viatac);
         sistema.agregarEmpresa(rapido);
         sistema.agregarEmpresa(condor);
-        Pasajero logeado = new Pasajero("lola", "lolo", 10, "contrasenia");
+
+        //new Pasajero("lola", "lolo", 10, "contrasenia")
         //ArrayList<Servicio> busqueda = sistema.buscarServicios("Buenos Aires", "Córdoba", LocalDate.of(2023, 6, 20));
         //sistema.mostrarViajesPantalla(busqueda);
         //sistema.mostrarViajes(busqueda,logeado);
+        */
         boolean salir = false;
         Scanner sn = new Scanner(System.in), teclado = new Scanner(System.in), sn2 = new Scanner(System.in);
-        int opcion = 0, tries = 0, dni;
+        int opcion = 0, tries = 3, dni;
+        String nombreusuario;
+        boolean ingreso = false;
+        boolean ingresoempresa = false;
 
         while (!salir) {
 
             System.out.println("---Bienvenido al sistema de La empresa Plataforma 9-3/4---");
             System.out.println("elija su rol");
-            System.out.println("1. INICIAR SESION/cliente");
-            System.out.println("2. iniciar sesion/admin");
-            System.out.println("3. Buscar pasaje");
-            System.out.println("4. Listar pasajes comprados");
-            System.out.println("5. Salir");
+            System.out.println("1. Iniciar Sesion/cliente.");
+            System.out.println("2. iniciar sesion/admin.");
+            System.out.println("3. Registrar nueva cuenta.");
+            System.out.println("4. Buscar pasaje.");
+            //System.out.println("5. Listar pasajes comprados.");
+            System.out.println("5. Salir.");
 
             opcion = sn.nextInt();
 
             switch (opcion) {
                 case 1:
-                    tries = 3;
-                    System.out.println("INGRESE SU DOCUMENTO");
-                    dni = sn2.nextInt();
-                    System.out.println("INGRESE SU CONTRASEÑA");
-                    String contrasenia = teclado.nextLine();
-                    //Deberia verificar
-                    System.out.println("Logueado con exito");
-
+                    int intento =0;
+                    //boolean ingreso = false;
+                    while (intento < tries && !ingreso) {
+                        System.out.println("INGRESE SU DOCUMENTO");
+                        nombreusuario = reader.readLine();
+                        System.out.println("INGRESE SU CONTRASEÑA");
+                        String contrasenia = reader.readLine();
+                        //Verifica si existe usuario
+                        if (testlogin.ingresar(nombreusuario, contrasenia)){
+                            ingreso = true;
+                            logeado = sistema.buscarPasajero(nombreusuario);
+                            boolean siguelogueado = false;
+                            while (!siguelogueado){
+                               System.out.println("Bienvenido: "+ logeado.getApellido() + ", " + logeado.getNombre() + ".");
+                               System.out.println("Eliga una de las siguientes operaciones: ");
+                               System.out.println("1.Buscar pasaje.");
+                               System.out.println("2.Listar los pasajes comprados.");
+                               System.out.println("3.Salir.");
+                               opcion = teclado.nextInt();
+                               switch (opcion){
+                                   case 1:
+                                       System.out.print("Ingrese Origen del viaje: ");
+                                       String string1 = reader.readLine();
+                                       System.out.print("Ingrese destino del viaje: ");
+                                       String string2 = reader.readLine();
+                                       ArrayList<Servicio> busqueda = sistema.buscarServicios(string1, string2);
+                                       if(!busqueda.isEmpty()){
+                                           sistema.mostrarViajes(busqueda, logeado);
+                                       }else{
+                                           System.out.println("No existe viaje.");
+                                       }
+                                       break;
+                                   case 2:
+                                       sistema.listarPasajes(logeado);
+                                       break;
+                                   case 3:
+                                       siguelogueado=true;
+                                       logeado = null;
+                                       intento=5;
+                                       break;
+                                   default:
+                                       System.out.println("Opción inválida. Intente nuevamente.");
+                                       break;
+                               }
+                            }
+                        }
+                        intento++;
+                        System.out.println("Datos incorrectos. Intentos restantes: " + String.valueOf(tries-intento));
+                    }
+                    if( intento >= 3){
+                        System.out.println("Demasiados intentos de ingresos incorrectos.");
+                    }
                     break;
                 case 2:
-                    System.out.println("INGRESE SU DOCUMENTO");
-                    dni = sn2.nextInt();
-                    System.out.println("INGRESE SU CONTRASEÑA");
-                    String contra = teclado.nextLine();
-                    //Deberia verificar
-                    System.out.println("Logueado con exito");
+                    int intentoempresa =0;
+                    //Verifica el ingreso de la empresa SOLO INGRESO NO HAY MAS ACCIONES.
+                    while (intentoempresa < tries && !ingresoempresa){
+                        System.out.println("INGRESE SU DOCUMENTO");
+                        String dni3 = reader.readLine();
+                        System.out.println("INGRESE SU CONTRASEÑA");
+                        String contra = reader.readLine();
+                        if(empresalogin.ingresar(dni3, contra)){
+                            ingresoempresa = true;
+                        }
+                        intentoempresa++;
+                    }
+                    if( intentoempresa >= 3){
+                        System.out.println("Demasiados intentos de ingresos incorrectos.");
+                    }
                     break;
                 case 3:
+                    //Registro de nuevo usuario comun.
+                    System.out.println("Ingrese su apellido: ");
+                    String apellido = reader.readLine();
+
+                    System.out.println("Ingrese su nombre: ");
+                    String nombre = reader.readLine();
+
+                    System.out.println("Ingrese su DNI: ");
+                    String dni2 = reader.readLine();
+
+                    System.out.println("Ingrese su contraseña: ");
+                    String contrasenia = reader.readLine();
+
+                    testlogin.registrarUsuario(apellido, nombre, dni2, contrasenia);
+                    Pasajero recienRegistrado = new Pasajero(apellido,nombre,Integer.parseInt(dni2),contrasenia);
+                    recienRegistrado.setTarjeta("");
+                    sistema.agregarPasajero(recienRegistrado);
+
+                    break;
+                case 4:
                     System.out.print("Ingrese Origen del viaje: ");
-                    String string1 = teclado.nextLine();
+                    String string1 = reader.readLine();
                     System.out.print("Ingrese destino del viaje: ");
-                    String string2 = teclado.nextLine();
+                    String string2 = reader.readLine();
                     //System.out.print("Ingrese la fecha (dd/mm/yy): ");
                     //String fechaString = teclado.nextLine();
                     //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YY/MM/dd");
                     //LocalDate fecha = LocalDate.parse(fechaString, formatter);
                     ArrayList<Servicio> busqueda = sistema.buscarServicios(string1, string2);
-                    logeado.setTarjeta("123456789");
                     if (!busqueda.isEmpty()){
-                        sistema.mostrarViajes(busqueda, logeado);
+                        /*if(ingreso){
+                            sistema.mostrarViajes(busqueda, logeado);
+                        }else {*/
+                            sistema.mostrarViajesPantalla(busqueda);
+                            System.out.println("Si desea comprar boleto, por favor debe loguearse.");
+                        //}
                     }
                     break;
-                case 4:
-                    sistema.listarPasajes(logeado);
-                    break;
+                //case 5:
+                    //sistema.listarPasajes(logeado);
+                  //  break;
                 case 5:
                     salir = true;
                     System.out.println("Saliendo del menú...");
+                    sistema.guardarEmpresas("empresas.dat");
+                    sistema.guardarPasajeros("pasajeros.dat");
                     break;
                 default:
                     System.out.println("Opción inválida. Intente nuevamente.");

@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class EmpresaTransporte {
+public class EmpresaTransporte implements Serializable {
     private String nombre;
     private ArrayList<Servicio> servicios;
 

@@ -1,4 +1,6 @@
-public class Asiento {
+import java.io.Serializable;
+
+public class Asiento implements Serializable {
     private int numero;
     private boolean disponible;
     private Pasajero pasajero;

@@ -1,8 +1,5 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
-import java.io.File;
 
 public class loginUsuario {
     private String csvFile;
@@ -11,28 +8,30 @@ public class loginUsuario {
         this.csvFile = csvFile;
     }
 
-    public void registrarUsuario(String apellido, String nombre, String dni, String contraseña) {
+    public void registrarUsuario(String apellido, String nombre, String dni, String contrasenia) {
         // Verificar si el usuario ya está registrado
-        if (buscarUsuario(dni) != null) {
-            System.out.println("El usuario ya está registrado.");
-            return;
-        }
+        if (csvFile.isEmpty() != true){
+            if (buscarUsuario(dni) != null) {
+                System.out.println("El usuario ya está registrado.");
+                return;
+            }
 
-        // Verificar si la contraseña cumple con los requisitos
-        if (!validarContraseña(contraseña)) {
-            System.out.println("La contraseña no cumple con los requisitos.");
-            return;
-        }
+            // Verificar si la contraseña cumple con los requisitos
+            if (!validarContraseña(contrasenia)) {
+                System.out.println("La contraseña no cumple con los requisitos.");
+                return;
+            }
 
-        // Registrar al usuario en el archivo CSV
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile, true))) {
-            writer.write(apellido + "," + nombre + "," + dni + "," + contraseña);
-            writer.newLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            // Registrar al usuario en el archivo CSV
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile, true))) {
+                writer.write(apellido + "," + nombre + "," + dni + "," + contrasenia);
+                writer.newLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        System.out.println("Usuario registrado exitosamente.");
+            System.out.println("Usuario registrado exitosamente.");
+        }
     }
 
     public String[] buscarUsuario(String dni) {
@@ -72,6 +71,22 @@ public class loginUsuario {
         }
 
         return tieneMinúscula && tieneMayúscula && tieneNúmero;
+    }
+    public boolean ingresar(String dni, String contraseña) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data[2].equals(dni) && data[3].equals(contraseña)) {
+                    System.out.println("Ingreso exitoso");
+                    return true; // Ingreso exitoso si el DNI y la contraseña coinciden
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Usuario/contraseña incorrecta");
+        return false; // Ingreso fallido si no se encuentra una coincidencia
     }
 }
 
